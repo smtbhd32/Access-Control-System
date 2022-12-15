@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../static/styles.css">
+    <title>Register Page</title>
+</head>
+<body>
+    <header class="heading">
+        <button onclick="location.href = '/'">SERB-INAE Hackathon 2022</button>
+    </header>
+    <main>
+        <form action="/registering" method="post" class="forms">
+            <div class="credential">
+                <div>
+                    <img src="../static/images/e-mail.jpg">
+                    <input type="email" placeholder="Email" name="email" id="" required>
+                </div>
+                <div>
+                    <img src="../static/images/pass.png">
+                    <input type="password" placeholder="Password" name="pswd" id="" required><br>
+                </div>
+                <div>
+                    <img src="../static/images/pass.png">
+                    <input type="password" placeholder="Confirm Password" name="cnfm" id="" required><br>
+                </div>
+                <div>
+                    <input type="submit"><br>
+                </div>
+            </div>
+            {{Error}}
+        </form>
+    </main>
+    <footer></footer>
+</body>
+</html>

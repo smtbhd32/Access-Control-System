@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin</title>
+    <link rel="stylesheet" href="../static/styles.css">
+    <style>
+        td {
+            border: 2px solid black;
+        }
+    </style>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
+    <script>
+        function access(app) {
+            const dict_values = {app, id} //Pass the javascript variables to a dictionary.
+            const s = JSON.stringify(dict_values); // Stringify converts a JavaScript object or value to a JSON string
+            $.ajax({
+                url:"/update",
+                type:"POST",
+                contentType: "application/json",
+                data: JSON.stringify(s)});
+                location.reload();
+            }
+            function revoke(app) {
+            const dict_values = {app, id} //Pass the javascript variables to a dictionary.
+            const s = JSON.stringify(dict_values); // Stringify converts a JavaScript object or value to a JSON string
+            $.ajax({
+                url:"/revoke",
+                type:"POST",
+                contentType: "application/json",
+                data: JSON.stringify(s)});
+                location.reload();
+            }
+            function cancel(app) {
+            const dict_values = {app, id} //Pass the javascript variables to a dictionary.
+            const s = JSON.stringify(dict_values); // Stringify converts a JavaScript object or value to a JSON string
+            $.ajax({
+                url:"/cancel",
+                type:"POST",
+                contentType: "application/json",
+                data: JSON.stringify(s)});
+                location.reload();
+            }
+            
+
+    </script>
+
+</head>
+<body>
+    <header class="heading">
+        <button onclick="location.href = '/'">SERB-INAE Hackathon 2022</button>
+    </header>
+    <main>
+        <h2>Allowed</h2>
+        <table id="allowed">
+            <tr>
+                <td>App</td>
+                <td>Operation</td>
+            </tr>
+        </table>
+        <br><br>
+        <h2>Access Requested</h2>
+        <table id="requested">
+            <tr>
+                <td>App</td>
+                <td colspan="2">Operation</td>
+            </tr>
+        </table>
+        <br><br>
+        <h2>Disabled</h2>
+        <table id="denied">
+            <tr>
+                <td>App</td>
+                <td>Operation</td>
+            </tr>
+        </table>
+    
+    <script>
+    var allow = JSON.parse('{{ allow | tojson | safe}}');
+    var deny = JSON.parse('{{ deny | tojson | safe}}');
+    var req = JSON.parse('{{ req | tojson | safe}}');
+    const Allowed = Object.values(allow);
+    const Deny = Object.values(deny);
+    const Req = Object.values(req);
+    var id = Deny[0];
+    for (var i = 1; i < Allowed.length; i++)
+    {
+        const tr = document.createElement("tr");
+        tr.setAttribute("id", i);
+        document.getElementById("allowed").appendChild(tr);
+        const td = document.createElement("td");
+        td.innerHTML = Allowed[i];
+        document.getElementById(i).appendChild(td);
+
+        const req = document.createElement("td");
+        req.setAttribute("id", Allowed[i]);
+        req.setAttribute("onclick", "revoke(this.id)");
+        req.innerHTML = "Revoke Access";
+        document.getElementById(i).appendChild(req);
+    }
+    for (var i = 0; i < Req.length; i++)
+    {
+        const tr = document.createElement("tr");
+        tr.setAttribute("id", 30+i);
+        document.getElementById("requested").appendChild(tr);
+        const td = document.createElement("td");
+        td.innerHTML = Req[i];
+        document.getElementById(30+i).appendChild(td);
+
+        const req = document.createElement("td");
+        req.setAttribute("id", Req[i]);
+        req.setAttribute("onclick", "access(this.id)");
+        req.innerHTML = "  Give  ";
+        document.getElementById(30+i).appendChild(req);
+
+        const c = document.createElement("td");
+        c.setAttribute("id", Req[i]);
+        c.setAttribute("onclick", "cancel(this.id)");
+        c.innerHTML = "  Deny  ";
+        document.getElementById(i+30).appendChild(c);
+    }
+    for (var i = 1; i < Deny.length; i++)
+    {
+        const tr = document.createElement("tr");
+        tr.setAttribute("id", 60+i);
+        document.getElementById("denied").appendChild(tr);
+        const td = document.createElement("td");
+        td.innerHTML = Deny[i];
+        document.getElementById(60+i).appendChild(td);
+
+        const req = document.createElement("td");
+        req.setAttribute("id", Deny[i]);
+        req.setAttribute("onclick", "access(this.id)");
+        req.innerHTML = "Give Access";
+        document.getElementById(60+i).appendChild(req);
+    }
+    </script>
+    </main>
+    <footer></footer>
+</body>
+</html>

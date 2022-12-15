@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin</title>
+    <link rel="stylesheet" href="../static/styles.css">
+    <style>
+        td {
+            border: 2px solid black;
+        }
+    </style>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
+    <script>
+        function access(app, id) {
+            const dict_values = {app, id} //Pass the javascript variables to a dictionary.
+            const s = JSON.stringify(dict_values); // Stringify converts a JavaScript object or value to a JSON string
+            $.ajax({
+                url:"/update",
+                type:"POST",
+                contentType: "application/json",
+                data: JSON.stringify(s)});
+                location.reload();
+            }
+            function revoke(app) {
+            const dict_values = {app, id} //Pass the javascript variables to a dictionary.
+            const s = JSON.stringify(dict_values); // Stringify converts a JavaScript object or value to a JSON string
+            $.ajax({
+                url:"/revoke",
+                type:"POST",
+                contentType: "application/json",
+                data: JSON.stringify(s)});
+                location.reload();
+            }
+            function temp(id) {
+            const dict_values = {id} //Pass the javascript variables to a dictionary.
+            const s = JSON.stringify(dict_values); // Stringify converts a JavaScript object or value to a JSON string
+            $.ajax({
+                url:"/temp",
+                type:"POST",
+                contentType: "application/json",
+                data: JSON.stringify(s)});
+                location.reload();
+            }
+            function urm(id) {
+            const dict_values = {id} //Pass the javascript variables to a dictionary.
+            const s = JSON.stringify(dict_values); // Stringify converts a JavaScript object or value to a JSON string
+            $.ajax({
+                url:"/urm",
+                type:"POST",
+                contentType: "application/json",
+                data: JSON.stringify(s)});
+                location.reload();
+            }
+            function rmapp(id) {
+            const dict_values = {id} //Pass the javascript variables to a dictionary.
+            const s = JSON.stringify(dict_values); // Stringify converts a JavaScript object or value to a JSON string
+            $.ajax({
+                url:"/rmapp",
+                type:"POST",
+                contentType: "application/json",
+                data: JSON.stringify(s)});
+                locatio
+                n.reload();
+            }
+            function cancel(app, id) {
+            const dict_values = {app, id} //Pass the javascript variables to a dictionary.
+            const s = JSON.stringify(dict_values); // Stringify converts a JavaScript object or value to a JSON string
+            $.ajax({
+                url:"/cancel",
+                type:"POST",
+                contentType: "application/json",
+                data: JSON.stringify(s)});
+                location.reload();
+            }
+
+    </script>
+
+</head>
+<body>
+    <header class="heading">
+        <button onclick="location.href = '/'">SERB-INAE Hackathon 2022</button></header>
+    <h2 class="padding-top-24">Modify access unilaterally</h2>
+
+    <form action="/user" method="post" class="forms credential">
+        <div>
+            <img src="../static/images/user.jfif">
+            <input type="email" name="mail"     placeholder="Input User E-mail Id" required>
+        </div>
+        <div class="submit">
+            <input type="submit">
+        </div>
+        {{Error}}
+    </form>
+    
+    <main>
+        <h2>Requests for App Access</h2>
+        <table id="requests">
+            <tr>
+                <td>User</td>
+                <td>App</td>
+                <td colspan="2">Operation</td>
+            </tr>
+        </table><br><br>
+        <h2>New User Requests</h2>
+        <table id="temp">
+            <tr>
+                <td>User</td>
+                <td>Access</td>
+            </tr>
+        </table><br><br>
+        <h2>Apps</h2>
+        <table id="apps">
+            <tr>
+                <td>App</td>
+                <td>Operation</td>
+            </tr>
+        </table>
+        <br><br>
+        <h2>Users</h2>
+        <table id="users">
+            <tr>
+                <td>User</td>
+                <td>Operation</td>
+            </tr>
+        </table>
+        <br><br>
+        
+        
+    
+    <script>
+    var user = JSON.parse('{{ user | tojson | safe}}');
+    var app = JSON.parse('{{ app | tojson | safe}}');
+    var request = JSON.parse('{{ request | tojson | safe}}');
+    var tempuser = JSON.parse('{{ tempuser | tojson | safe}}');
+    const users = Object.values(user);
+    const apps = Object.values(app);
+    const requests = Object.values(request);
+    const tempy = Object.values(tempuser);
+    if(users.length > 0)
+    {
+        for (var i = 0; i < users.length; i++)
+        {
+        const tr = document.createElement("tr");
+        tr.setAttribute("id", i);
+        document.getElementById("users").appendChild(tr);
+
+        const td = document.createElement("td");
+        td.innerHTML = users[i][0];
+        document.getElementById(i).appendChild(td);
+
+        const req = document.createElement("td");
+        req.setAttribute("id", users[i][0]);
+        req.setAttribute("onclick", "urm(this.id)");
+        req.innerHTML = "Remove";
+        document.getElementById(i).appendChild(req);
+        }
+    }
+    if(apps.length > 0)
+    {
+        for (var i = 0; i < apps.length; i++)
+        {
+        const tr = document.createElement("tr");
+        tr.setAttribute("id", i+30);
+        document.getElementById("apps").appendChild(tr);
+
+        const td = document.createElement("td");
+        td.innerHTML = apps[i];
+        document.getElementById(i+30).appendChild(td);
+
+        const req = document.createElement("td");
+        req.setAttribute("id", apps[i]);
+        req.setAttribute("onclick", "rmapp(this.id)");
+        req.innerHTML = "Remove";
+        document.getElementById(i+30).appendChild(req);
+        }
+    }
+    if(tempy.length > 0)
+    {
+        for (var i = 0; i < tempy.length; i++)
+        {
+        const tr = document.createElement("tr");
+        tr.setAttribute("id", i+60);
+        document.getElementById("temp").appendChild(tr);
+
+        const td = document.createElement("td");
+        td.innerHTML = tempy[i];
+        document.getElementById(i+60).appendChild(td);
+
+        const req = document.createElement("td");
+        req.setAttribute("id", tempy[i]);
+        req.setAttribute("onclick", "temp(this.id)");
+        req.innerHTML = "Approve";
+        document.getElementById(i+60).appendChild(req);
+        }
+    }
+    if(requests.length > 0)
+    {
+        for (var i = 0; i < requests.length; i++)
+        {
+        const tr = document.createElement("tr");
+        tr.setAttribute("id", i+90);
+        document.getElementById("requests").appendChild(tr);
+
+        const td = document.createElement("td");
+        td.innerHTML = requests[i][0];
+        document.getElementById(i+90).appendChild(td);
+
+        const td1 = document.createElement("td");
+        td1.innerHTML = requests[i][1];
+        document.getElementById(i+90).appendChild(td1);
+
+        const req = document.createElement("td");
+        req.setAttribute("id", requests[i][1]);
+        req.setAttribute("class", requests[i][0]);
+        req.setAttribute("onclick", "access(this.id,this.getAttribute('class'))");
+        req.innerHTML = "Allow";
+        document.getElementById(i+90).appendChild(req);
+
+        const c = document.createElement("td");
+        c.setAttribute("id", requests[i][1]);
+        c.setAttribute("class", requests[i][0]);
+        c.setAttribute("onclick", "cancel(this.id,this.getAttribute('class'))");
+        c.innerHTML = "Deny";
+        document.getElementById(i+90).appendChild(c);
+        
+        }
+    }
+    
+    
+    </script>
+    </main>
+    <footer></footer>
+</body>
+</html>

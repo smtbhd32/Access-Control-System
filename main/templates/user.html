@@ -1,0 +1,60 @@
+{% extends "admin.html" %}
+
+{% block body %}
+<form action="/user" method="post">
+    <input type="email" placeholder="Input EmailId" name="email" required>
+    <input type="submit">
+</form>
+<table id="allowed">
+    <tr>
+        <td>App</td>
+        <td>Operation</td>
+    </tr>
+</table>
+<br><br>
+<table id="denied">
+    <tr>
+        <td>App</td>
+        <td>Operation</td>
+    </tr>
+</table>
+
+<script>
+var allow = JSON.parse('{{ allow | tojson | safe}}');
+var deny = JSON.parse('{{ deny | tojson | safe}}');
+const Allowed = Object.values(allow);
+const Deny = Object.values(deny);
+var id = Deny[0];
+for (var i = 1; i < Allowed.length; i++)
+{
+const tr = document.createElement("tr");
+tr.setAttribute("id", i);
+document.getElementById("allowed").appendChild(tr);
+const td = document.createElement("td");
+td.innerHTML = Allowed[i];
+document.getElementById(i).appendChild(td);
+
+const req = document.createElement("td");
+req.setAttribute("id", Allowed[i]);
+req.setAttribute("onclick", "revoke(this.id)");
+req.innerHTML = "Revoke Access";
+document.getElementById(i).appendChild(req);
+}
+for (var i = 1; i < Deny.length; i++)
+{
+const tr = document.createElement("tr");
+tr.setAttribute("id", 30+i);
+document.getElementById("denied").appendChild(tr);
+const td = document.createElement("td");
+td.innerHTML = Deny[i];
+document.getElementById(30+i).appendChild(td);
+
+const req = document.createElement("td");
+req.setAttribute("id", Deny[i]);
+req.setAttribute("onclick", "access(this.id)");
+req.innerHTML = "Request Access";
+document.getElementById(30+i).appendChild(req);
+}
+</script>
+
+{% endblock %}
