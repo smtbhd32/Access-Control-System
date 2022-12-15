@@ -12,11 +12,9 @@ If users want access to any other applications that they are not granted access 
 request their admin for access. After the admin approval, the user can access those
 applications
 
-# This webapp runs on flask-based server...
+This webapp runs on flask-based server...
 
-# You can access the project using it's live link: http://smtbhd32.pythonanywhere.com/
-
-OR 
+You can access the project using it's live link: http://smtbhd32.pythonanywhere.com/
 
 # You can run the server on your computer following below steps:
 1. Download the main folder as zip
