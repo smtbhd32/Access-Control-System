@@ -16,7 +16,7 @@ This webapp runs on flask-based server...
 
 You can access the project using it's live link: http://smtbhd32.pythonanywhere.com/
 
-# You can run the server on your computer following below steps:
+# You can run the server on your computer by following below steps:
 1. Download the main folder as zip
 2. Extract the zip
 3. Install the dependencies... Python from it's website... Then flask using pip...
