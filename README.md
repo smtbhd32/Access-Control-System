@@ -1,6 +1,5 @@
 # Access-Control-System
-A Web App, which will have two tabs, one for the admins and the other
-for users.
+A Web App, which allow admins to manage the access of apps/services on user's side.
 
 Controls/Features provided based on profile:
   The Administrator can control the access of applications of all the users. He can
